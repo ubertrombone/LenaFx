@@ -5,7 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.rememberNavHostEngine
-import com.roseFinancials.lenafx.destinations.*
+import com.roseFinancials.lenafx.destinations.Destination
+import com.roseFinancials.lenafx.destinations.StocksScreenDestination
 import com.roseFinancials.lenafx.ui.composables.scaffold.BottomBar
 import com.roseFinancials.lenafx.ui.composables.scaffold.FirstScaffold
 import com.roseFinancials.lenafx.ui.composables.scaffold.TopBar
@@ -33,7 +34,7 @@ fun LenaFxApp() {
 private val Destination.shouldShowBottomBar get() = this !is StocksScreenDestination
 
 // TODO: When SecondBottomBar is ready, move this into the lambda
-private val Destination.whichBottomBar get() = when (this) {
-    IndexScreenDestination, CompanyScreenDestination, BondsScreenDestination -> true
-    else -> false
-}
+//private val Destination.whichBottomBar get() = when (this) {
+//    IndexScreenDestination, CompanyScreenDestination, BondsScreenDestination -> true
+//    else -> false
+//}

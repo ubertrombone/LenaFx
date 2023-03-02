@@ -20,8 +20,8 @@ class DependencyContainer(val activity: MainActivity) {
             MainViewModel::class.java -> MainViewModel(stocksStateRepository)
             CompanyViewModel::class.java -> CompanyViewModel(stocksStateRepository)
             IndexViewModel::class.java -> IndexViewModel(stocksStateRepository)
-            StocksViewModel::class.java -> StocksViewModel(stocksStateRepository)
             BondsViewModel::class.java -> BondsViewModel(bondDataStateRepository)
+            StocksViewModel::class.java -> StocksViewModel(stocksStateRepository)
             else -> throw RuntimeException("Unknown view model $modelClass")
         } as T
     }
