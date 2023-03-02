@@ -1,0 +1,12 @@
+<resources>
+	<string name="app_name">LenaF(x)</string>
+	<string name="search_company">Search Company</string>
+	<string name="search_bonds">Search Bonds</string>
+	<string name="enter_ticker">Enter Ticker</string>
+	<string name="no_results">No Results</string>
+	<string name="index_name">Index Name</string>
+	<string name="dismiss">Dismiss</string>
+	<string name="missing_index">Select an Index</string>
+	<string name="missing_ticker">No ticker selected</string>
+	<string name="continue_button">Continue</string>
+</resources>
