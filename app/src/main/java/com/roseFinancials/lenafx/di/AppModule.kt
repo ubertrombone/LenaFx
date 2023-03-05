@@ -1,4 +1,4 @@
-package com.roseFinancials.lenafx.core.di
+package com.roseFinancials.lenafx.di
 
 import com.roseFinancials.lenafx.data.repositories.EtfDataStateRepository
 import com.roseFinancials.lenafx.data.repositories.StocksStateRepository
