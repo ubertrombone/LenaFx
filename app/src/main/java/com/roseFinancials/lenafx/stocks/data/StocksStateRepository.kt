@@ -8,7 +8,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
+import javax.inject.Singleton
 
+@Singleton
 class StocksStateRepository {
     private val _stocksState = MutableStateFlow(StocksState(index = INDICES.first().first))
     val stocksState: StateFlow<StocksState> = _stocksState.asStateFlow()

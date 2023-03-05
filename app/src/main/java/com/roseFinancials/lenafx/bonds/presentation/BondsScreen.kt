@@ -10,12 +10,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.annotation.Destination
-import com.roseFinancials.lenafx.MainViewModel
 import com.roseFinancials.lenafx.R
-import com.roseFinancials.lenafx.core.viewmodel.activityViewModel
-import com.roseFinancials.lenafx.core.viewmodel.viewModel
 import com.roseFinancials.lenafx.ui.composables.ContinueButton
 import com.roseFinancials.lenafx.ui.composables.RangesAndIntervals
 import com.roseFinancials.lenafx.ui.composables.search.SearchLayout
@@ -24,12 +22,10 @@ import com.roseFinancials.lenafx.ui.composables.search.SearchLayout
 @Composable
 fun BondsScreen(
     navController: NavController,
-    viewModel: BondsViewModel = viewModel()
+    viewModel: BondsViewModel = hiltViewModel()
 ) {
-    val mainViewModel = activityViewModel<MainViewModel>()
     val bondDataState by viewModel.bondDataStateFlow.collectAsState()
-    val loadingState by mainViewModel.loadingState.collectAsState()
-    //val isCurrentDestOnBackStack = navController.isRouteOnBackStack()
+    val loadingState by viewModel.loadingState.collectAsState()
 
     Box(
         contentAlignment = Alignment.TopCenter,
@@ -43,12 +39,12 @@ fun BondsScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             SearchLayout(
-                value = mainViewModel.searchQuery.collectAsState().value,
+                value = viewModel.searchQuery.collectAsState().value,
                 label = stringResource(R.string.search_bonds),
-                searchResults = mainViewModel.searchResults.collectAsState().value,
+                searchResults = viewModel.searchResults.collectAsState().value,
                 ticker = bondDataState.ticker,
                 loadingState = loadingState,
-                onValueChange = mainViewModel::updateSearchQuery,
+                onValueChange = viewModel::updateSearchQuery,
                 onClick = viewModel::updateTicker
             )
 

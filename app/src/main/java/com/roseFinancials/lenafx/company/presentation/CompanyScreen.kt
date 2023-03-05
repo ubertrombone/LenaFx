@@ -10,15 +10,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import com.ramcosta.composedestinations.navigation.popBackStack
-import com.ramcosta.composedestinations.utils.isRouteOnBackStack
-import com.roseFinancials.lenafx.MainViewModel
 import com.roseFinancials.lenafx.R
-import com.roseFinancials.lenafx.core.viewmodel.activityViewModel
-import com.roseFinancials.lenafx.core.viewmodel.viewModel
 import com.roseFinancials.lenafx.destinations.StocksScreenDestination
 import com.roseFinancials.lenafx.ui.composables.ContinueButton
 import com.roseFinancials.lenafx.ui.composables.IndexAndApiParams
@@ -30,12 +26,10 @@ import com.roseFinancials.lenafx.utils.Constants.INDICES
 @Composable
 fun CompanyScreen(
     navController: NavController,
-    viewModel: CompanyViewModel = viewModel()
+    viewModel: CompanyViewModel = hiltViewModel()
 ) {
-    val mainViewModel = activityViewModel<MainViewModel>()
     val stocksState by viewModel.stocksStateFlow.collectAsState()
-    val loadingState by mainViewModel.loadingState.collectAsState()
-    val isCurrentDestOnBackStack = navController.isRouteOnBackStack(StocksScreenDestination)
+    val loadingState by viewModel.loadingState.collectAsState()
 
     Box(
         contentAlignment = Alignment.TopCenter,
@@ -49,13 +43,13 @@ fun CompanyScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             SearchLayout(
-                value = mainViewModel.searchQuery.collectAsState().value,
+                value = viewModel.searchQuery.collectAsState().value,
                 label = stringResource(R.string.search_company),
-                searchResults = mainViewModel.searchResults.collectAsState().value,
+                searchResults = viewModel.searchResults.collectAsState().value,
                 ticker = stocksState.ticker,
                 loadingState = loadingState,
-                onValueChange = mainViewModel::updateSearchQuery,
-                onClick = mainViewModel::updateTickerValue
+                onValueChange = viewModel::updateSearchQuery,
+                onClick = viewModel::updateTicker
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -73,13 +67,6 @@ fun CompanyScreen(
         ContinueButton(
             modifier = Modifier.align(Alignment.BottomEnd),
             enabled = !stocksState.ticker.isNullOrBlank()
-        ) {
-            if (isCurrentDestOnBackStack) {
-                navController.popBackStack(StocksScreenDestination, false)
-                return@ContinueButton
-            }
-
-            navController.navigate(StocksScreenDestination.route)
-        }
+        ) { navController.navigate(StocksScreenDestination.route) }
     }
 }

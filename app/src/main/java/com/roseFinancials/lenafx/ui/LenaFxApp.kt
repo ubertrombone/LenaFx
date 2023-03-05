@@ -1,10 +1,11 @@
-package com.roseFinancials.lenafx
+package com.roseFinancials.lenafx.ui
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.rememberNavHostEngine
+import com.roseFinancials.lenafx.NavGraphs
 import com.roseFinancials.lenafx.destinations.Destination
 import com.roseFinancials.lenafx.destinations.StocksScreenDestination
 import com.roseFinancials.lenafx.ui.composables.scaffold.BottomBar

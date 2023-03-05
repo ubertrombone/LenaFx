@@ -7,7 +7,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
+import javax.inject.Singleton
 
+@Singleton
 class BondDataStateRepository {
     private val _bondDataState = MutableStateFlow(BondDataState())
     val bondDataState: StateFlow<BondDataState> = _bondDataState.asStateFlow()

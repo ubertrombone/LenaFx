@@ -9,25 +9,33 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.annotation.Destination
-import com.roseFinancials.lenafx.MainViewModel
-import com.roseFinancials.lenafx.core.viewmodel.activityViewModel
-import com.roseFinancials.lenafx.core.viewmodel.viewModel
+import com.ramcosta.composedestinations.navigation.popUpTo
+import com.roseFinancials.lenafx.NavGraphs
 
 @Destination
 @Composable
 fun StocksScreen(
     navController: NavController,
-    viewModel: StocksViewModel = viewModel()
+    viewModel: StocksViewModel = hiltViewModel()
 ) {
-    val mainViewModel = activityViewModel<MainViewModel>()
+    val stocks = viewModel.stocksState.collectAsState().value
+    val backStackEntry = navController.previousBackStackEntry
+
     BackHandler {
-        mainViewModel.resetStocksState()
-        navController.popBackStack()
+        viewModel.resetState()
+        backStackEntry?.let { navController.navigate(backStackEntry.destination.route!!) {
+            popUpTo(NavGraphs.root) {
+                saveState = false
+            }
+            restoreState = false
+        }} ?: navController.popBackStack()
     }
 
     Column(
@@ -38,9 +46,9 @@ fun StocksScreen(
             .verticalScroll(rememberScrollState())
             .padding(15.dp)
     ) {
-        Text("Ticker: ${viewModel.stocksState.ticker}")
-        Text("Index: ${viewModel.stocksState.index}")
-        Text("Range: ${viewModel.stocksState.dateRange}")
-        Text("Interval: ${viewModel.stocksState.interval}")
+        Text("Ticker: ${stocks.ticker}")
+        Text("Index: ${stocks.index}")
+        Text("Range: ${stocks.dateRange}")
+        Text("Interval: ${stocks.interval}")
     }
 }

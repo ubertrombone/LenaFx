@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.devtools.ksp' version '1.8.0-1.0.9'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.10'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -69,10 +71,17 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
     ksp 'io.github.raamcosta.compose-destinations:ksp:1.8.33-beta'
+    implementation "com.google.dagger:hilt-android:2.44"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+    kapt "com.google.dagger:hilt-compiler:2.44"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+}
+
+kapt {
+    correctErrorTypes true
 }
