@@ -46,6 +46,7 @@ fun DividendsScreen(
             .verticalScroll(rememberScrollState())
             .padding(15.dp)
     ) {
+        Text("DIVIDENDS")
         Text("Ticker: ${stocks.ticker}")
         Text("Index: ${stocks.index}")
         Text("Range: ${stocks.dateRange}")

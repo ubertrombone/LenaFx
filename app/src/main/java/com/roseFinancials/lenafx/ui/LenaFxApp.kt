@@ -6,11 +6,13 @@ import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.roseFinancials.lenafx.NavGraphs
-import com.roseFinancials.lenafx.destinations.Destination
-import com.roseFinancials.lenafx.destinations.StocksScreenDestination
-import com.roseFinancials.lenafx.ui.composables.scaffold.BottomBar
+import com.roseFinancials.lenafx.destinations.*
 import com.roseFinancials.lenafx.ui.composables.scaffold.FirstScaffold
+import com.roseFinancials.lenafx.ui.composables.scaffold.SearchBottomBar
+import com.roseFinancials.lenafx.ui.composables.scaffold.StocksBottomBar
 import com.roseFinancials.lenafx.ui.composables.scaffold.TopBar
+import com.roseFinancials.lenafx.utils.BottomBars.SEARCH_BOTTOM_BAR
+import com.roseFinancials.lenafx.utils.BottomBars.STOCKS_BOTTOM_BAR
 
 @Composable
 fun LenaFxApp() {
@@ -21,7 +23,10 @@ fun LenaFxApp() {
         startRoute = NavGraphs.root.startRoute,
         navController = navController,
         topBar = { dest, backStackEntry -> TopBar(dest, navController, backStackEntry) },
-        bottomBar = { if (it.shouldShowBottomBar) BottomBar(navController) }
+        bottomBar = { when (it.whichBottomBar) {
+            SEARCH_BOTTOM_BAR -> SearchBottomBar(navController)
+            STOCKS_BOTTOM_BAR -> StocksBottomBar(navController)
+        }}
     ) {
         DestinationsNavHost(
             engine = engine,
@@ -32,10 +37,7 @@ fun LenaFxApp() {
     }
 }
 
-private val Destination.shouldShowBottomBar get() = this !is StocksScreenDestination
-
-// TODO: When SecondBottomBar is ready, move this into the lambda
-//private val Destination.whichBottomBar get() = when (this) {
-//    IndexScreenDestination, CompanyScreenDestination, BondsScreenDestination -> true
-//    else -> false
-//}
+private val Destination.whichBottomBar get() = when (this) {
+    CompanyScreenDestination, EtfsScreenDestination -> SEARCH_BOTTOM_BAR
+    StocksScreenDestination, DividendsScreenDestination -> STOCKS_BOTTOM_BAR
+}

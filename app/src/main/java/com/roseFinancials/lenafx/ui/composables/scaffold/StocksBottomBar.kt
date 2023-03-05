@@ -8,19 +8,19 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.navigation.NavHostController
 import com.ramcosta.composedestinations.navigation.popBackStack
-import com.ramcosta.composedestinations.navigation.popUpTo
 import com.ramcosta.composedestinations.utils.isRouteOnBackStack
-import com.roseFinancials.lenafx.NavGraphs
 import com.roseFinancials.lenafx.R
-import com.roseFinancials.lenafx.destinations.CompanyScreenDestination
 import com.roseFinancials.lenafx.destinations.Destination
-import com.roseFinancials.lenafx.destinations.EtfsScreenDestination
+import com.roseFinancials.lenafx.destinations.DividendsScreenDestination
+import com.roseFinancials.lenafx.destinations.StocksScreenDestination
 
 @Composable
-fun SearchBottomBar(navController: NavHostController) {
+fun StocksBottomBar(navController: NavHostController) {
+    val previousBackStackEntry = navController.previousBackStackEntry?.destination?.route
+        ?: throw NullPointerException("No previous backstack entry")
 
     NavigationBar(containerColor = MaterialTheme.colorScheme.primary) {
-        FirstBottomBarItem.values().forEach { destination ->
+        SecondBottomBarItem.values().forEach { destination ->
             val isCurrentDestOnBackStack = navController.isRouteOnBackStack(destination.direction)
 
             NavigationBarItem(
@@ -37,7 +37,7 @@ fun SearchBottomBar(navController: NavHostController) {
                         return@NavigationBarItem
                     }
                     navController.navigate(destination.direction.route) {
-                        popUpTo(NavGraphs.root) {
+                        popUpTo(previousBackStackEntry) {
                             saveState = false
                         }
                         launchSingleTop = true
@@ -47,8 +47,8 @@ fun SearchBottomBar(navController: NavHostController) {
                 icon = {
                     Icon(
                         when (destination.text) {
-                            "Company" -> ImageVector.vectorResource(R.drawable.store)
-                            "ETF" -> ImageVector.vectorResource(R.drawable.card_membership)
+                            "Stocks" -> ImageVector.vectorResource(R.drawable.insights)
+                            "Dividends" -> ImageVector.vectorResource(R.drawable.price_check)
                             else -> Icons.Default.Search
                         },
                         contentDescription = destination.text
@@ -60,10 +60,10 @@ fun SearchBottomBar(navController: NavHostController) {
     }
 }
 
-enum class FirstBottomBarItem(
+enum class SecondBottomBarItem(
     val direction: Destination,
     val text: String
 ) {
-    Company(CompanyScreenDestination,"Company"),
-    Etfs(EtfsScreenDestination, "ETF")
+    Stocks(StocksScreenDestination, "Stocks"),
+    Dividends(DividendsScreenDestination, "Dividends")
 }

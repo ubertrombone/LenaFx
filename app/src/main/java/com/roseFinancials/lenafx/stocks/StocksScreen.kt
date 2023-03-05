@@ -46,6 +46,7 @@ fun StocksScreen(
             .verticalScroll(rememberScrollState())
             .padding(15.dp)
     ) {
+        Text("STOCKS")
         Text("Ticker: ${stocks.ticker}")
         Text("Index: ${stocks.index}")
         Text("Range: ${stocks.dateRange}")
