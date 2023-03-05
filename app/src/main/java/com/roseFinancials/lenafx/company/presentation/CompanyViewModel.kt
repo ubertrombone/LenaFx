@@ -4,9 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roseFinancials.lenafx.company.domain.LoadingState
 import com.roseFinancials.lenafx.models.SearchQueryResponse
-import com.roseFinancials.lenafx.network.TiingoSearchApi
+import com.roseFinancials.lenafx.network.TiingoSearchApiService
 import com.roseFinancials.lenafx.stocks.data.StocksStateRepository
-import com.roseFinancials.lenafx.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -19,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CompanyViewModel @Inject constructor(
-    private val stocksStateRepository: StocksStateRepository
+    private val stocksStateRepository: StocksStateRepository,
+    private val tiingoSearchApiService: TiingoSearchApiService
 ): ViewModel() {
     val stocksStateFlow = stocksStateRepository.stocksState
 
@@ -46,6 +46,7 @@ class CompanyViewModel @Inject constructor(
     val searchResults: StateFlow<List<SearchQueryResponse>> = _searchResults.asStateFlow()
 
     private var job: Job? = null
+    @Suppress("DuplicatedCode")
     fun updateSearchQuery(query: String) {
         job?.cancel()
         if (query.isBlank()) {
@@ -62,7 +63,7 @@ class CompanyViewModel @Inject constructor(
         job = viewModelScope.launch {
             delay(500)
             _searchResults.update {
-                TiingoSearchApi.retrofitService.getCompanies("${Constants.SEARCH_URL}$query${Constants.LIMIT}${Constants.TIINGO_API_KEY}")
+                tiingoSearchApiService.getCompanies(query = query)
             }
             _loadingState.update { LoadingState.RESULTS }
         }

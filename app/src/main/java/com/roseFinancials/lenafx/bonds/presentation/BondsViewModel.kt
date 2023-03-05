@@ -5,8 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.roseFinancials.lenafx.bonds.data.BondDataStateRepository
 import com.roseFinancials.lenafx.company.domain.LoadingState
 import com.roseFinancials.lenafx.models.SearchQueryResponse
-import com.roseFinancials.lenafx.network.TiingoSearchApi
-import com.roseFinancials.lenafx.utils.Constants
+import com.roseFinancials.lenafx.network.TiingoSearchApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -18,7 +17,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BondsViewModel @Inject constructor(private val bondDataStateRepository: BondDataStateRepository): ViewModel() {
+class BondsViewModel @Inject constructor(
+    private val bondDataStateRepository: BondDataStateRepository,
+    private val tiingoSearchApiService: TiingoSearchApiService
+): ViewModel() {
     val bondDataStateFlow = bondDataStateRepository.bondDataState
 
     fun updateTicker(ticker: String) {
@@ -41,6 +43,7 @@ class BondsViewModel @Inject constructor(private val bondDataStateRepository: Bo
     val searchResults: StateFlow<List<SearchQueryResponse>> = _searchResults.asStateFlow()
 
     private var job: Job? = null
+    @Suppress("DuplicatedCode")
     fun updateSearchQuery(query: String) {
         job?.cancel()
         if (query.isBlank()) {
@@ -57,7 +60,7 @@ class BondsViewModel @Inject constructor(private val bondDataStateRepository: Bo
         job = viewModelScope.launch {
             delay(500)
             _searchResults.update {
-                TiingoSearchApi.retrofitService.getCompanies("${Constants.SEARCH_URL}$query${Constants.LIMIT}${Constants.TIINGO_API_KEY}")
+                tiingoSearchApiService.getCompanies(query = query)
             }
             _loadingState.update { LoadingState.RESULTS }
         }
