@@ -1,9 +1,9 @@
-package com.roseFinancials.lenafx.bonds.presentation
+package com.roseFinancials.lenafx.etfs.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.roseFinancials.lenafx.bonds.data.BondDataStateRepository
 import com.roseFinancials.lenafx.company.domain.LoadingState
+import com.roseFinancials.lenafx.etfs.data.EtfDataStateRepository
 import com.roseFinancials.lenafx.models.SearchQueryResponse
 import com.roseFinancials.lenafx.network.TiingoSearchApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,20 +17,20 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BondsViewModel @Inject constructor(
-    private val bondDataStateRepository: BondDataStateRepository,
+class EtfsViewModel @Inject constructor(
+    private val etfDataStateRepository: EtfDataStateRepository,
     private val tiingoSearchApiService: TiingoSearchApiService
 ): ViewModel() {
-    val bondDataStateFlow = bondDataStateRepository.bondDataState
+    val etfDataStateFlow = etfDataStateRepository.etfDataState
 
     fun updateTicker(ticker: String) {
-        viewModelScope.launch { bondDataStateRepository.updateTicker(ticker) }
+        viewModelScope.launch { etfDataStateRepository.updateTicker(ticker) }
     }
     fun updateRange(range: String) {
-        viewModelScope.launch { bondDataStateRepository.updateRange(range) }
+        viewModelScope.launch { etfDataStateRepository.updateRange(range) }
     }
     fun updateInterval(interval: String) {
-        viewModelScope.launch { bondDataStateRepository.updateInterval(interval) }
+        viewModelScope.launch { etfDataStateRepository.updateInterval(interval) }
     }
 
     private val _loadingState = MutableStateFlow(LoadingState.EMPTY)

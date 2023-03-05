@@ -1,7 +1,6 @@
 package com.roseFinancials.lenafx.ui.composables.scaffold
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -13,9 +12,9 @@ import com.ramcosta.composedestinations.navigation.popUpTo
 import com.ramcosta.composedestinations.utils.isRouteOnBackStack
 import com.roseFinancials.lenafx.NavGraphs
 import com.roseFinancials.lenafx.R
-import com.roseFinancials.lenafx.destinations.BondsScreenDestination
 import com.roseFinancials.lenafx.destinations.CompanyScreenDestination
 import com.roseFinancials.lenafx.destinations.Destination
+import com.roseFinancials.lenafx.destinations.EtfsScreenDestination
 
 @Composable
 fun BottomBar(navController: NavHostController) {
@@ -47,8 +46,11 @@ fun BottomBar(navController: NavHostController) {
                 },
                 icon = {
                     Icon(
-                        if (destination.text == "Bonds") ImageVector.vectorResource(R.drawable.card_membership)
-                        else destination.icon,
+                        when (destination.text) {
+                            "Company" -> ImageVector.vectorResource(R.drawable.store)
+                            "ETF" -> ImageVector.vectorResource(R.drawable.card_membership)
+                            else -> Icons.Default.Search
+                        },
                         contentDescription = destination.text
                     )
                 },
@@ -58,12 +60,10 @@ fun BottomBar(navController: NavHostController) {
     }
 }
 
-// TODO: Custom Icons
 enum class FirstBottomBarItem(
     val direction: Destination,
-    val icon: ImageVector,
     val text: String
 ) {
-    Company(CompanyScreenDestination, Icons.Default.Search,"Company"),
-    Bonds(BondsScreenDestination, Icons.Default.AccountCircle, "Bonds")
+    Company(CompanyScreenDestination,"Company"),
+    Etfs(EtfsScreenDestination, "ETF")
 }

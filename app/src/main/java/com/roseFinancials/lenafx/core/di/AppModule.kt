@@ -1,6 +1,6 @@
 package com.roseFinancials.lenafx.core.di
 
-import com.roseFinancials.lenafx.bonds.data.BondDataStateRepository
+import com.roseFinancials.lenafx.etfs.data.EtfDataStateRepository
 import com.roseFinancials.lenafx.stocks.data.StocksStateRepository
 import dagger.Module
 import dagger.Provides
@@ -20,7 +20,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideBondDataStateRepository(): BondDataStateRepository {
-        return BondDataStateRepository()
+    fun provideEtfDataStateRepository(): EtfDataStateRepository {
+        return EtfDataStateRepository()
     }
 }

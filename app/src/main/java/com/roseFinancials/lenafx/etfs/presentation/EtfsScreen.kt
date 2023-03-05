@@ -1,4 +1,4 @@
-package com.roseFinancials.lenafx.bonds.presentation
+package com.roseFinancials.lenafx.etfs.presentation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -20,11 +20,11 @@ import com.roseFinancials.lenafx.ui.composables.search.SearchLayout
 
 @Destination
 @Composable
-fun BondsScreen(
+fun EtfsScreen(
     navController: NavController,
-    viewModel: BondsViewModel = hiltViewModel()
+    viewModel: EtfsViewModel = hiltViewModel()
 ) {
-    val bondDataState by viewModel.bondDataStateFlow.collectAsState()
+    val etfDataState by viewModel.etfDataStateFlow.collectAsState()
     val loadingState by viewModel.loadingState.collectAsState()
 
     Box(
@@ -40,9 +40,9 @@ fun BondsScreen(
         ) {
             SearchLayout(
                 value = viewModel.searchQuery.collectAsState().value,
-                label = stringResource(R.string.search_bonds),
+                label = stringResource(R.string.search_etfs),
                 searchResults = viewModel.searchResults.collectAsState().value,
-                ticker = bondDataState.ticker,
+                ticker = etfDataState.ticker,
                 loadingState = loadingState,
                 onValueChange = viewModel::updateSearchQuery,
                 onClick = viewModel::updateTicker
@@ -51,8 +51,8 @@ fun BondsScreen(
             Spacer(Modifier.height(20.dp))
 
             RangesAndIntervals(
-                selectedRange = bondDataState.dateRange,
-                selectedInterval = bondDataState.interval,
+                selectedRange = etfDataState.dateRange,
+                selectedInterval = etfDataState.interval,
                 rangeClick = viewModel::updateRange,
                 intervalClick = viewModel::updateInterval
             )
@@ -60,7 +60,7 @@ fun BondsScreen(
 
         ContinueButton(
             modifier = Modifier.align(Alignment.BottomEnd),
-            enabled = !bondDataState.ticker.isNullOrBlank()
+            enabled = !etfDataState.ticker.isNullOrBlank()
         ) {
 //            if (isCurrentDestOnBackStack) {
 //                navController.popBackStack(DataScreenDestination, false)
