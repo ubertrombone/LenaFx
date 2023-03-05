@@ -15,18 +15,18 @@ import com.roseFinancials.lenafx.startAppDestination
 fun FirstScaffold(
     navController: NavHostController,
     startRoute: Route,
-    topBar: @Composable (Destination) -> Unit,
+    topBar: @Composable (Destination, NavBackStackEntry?) -> Unit,
     bottomBar: @Composable (Destination) -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
     val destination = navController.appCurrentDestinationAsState().value ?: startRoute.startAppDestination
-    //val navBackStackEntry = navController.currentBackStackEntry
+    val navBackStackEntry = navController.previousBackStackEntry
 
     // 👇 only for debugging, you shouldn't use currentBackStack API as it is restricted by annotation
     navController.currentBackStack.collectAsState().value.print()
 
     Scaffold(
-        topBar = { topBar(destination) },
+        topBar = { topBar(destination, navBackStackEntry) },
         bottomBar = { bottomBar(destination) },
         content = content
     )

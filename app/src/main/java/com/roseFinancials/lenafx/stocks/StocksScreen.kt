@@ -1,4 +1,4 @@
-package com.roseFinancials.lenafx.stocks.presentation
+package com.roseFinancials.lenafx.stocks
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement

@@ -20,7 +20,7 @@ fun LenaFxApp() {
     FirstScaffold(
         startRoute = NavGraphs.root.startRoute,
         navController = navController,
-        topBar = { dest -> TopBar(dest, navController) },
+        topBar = { dest, backStackEntry -> TopBar(dest, navController, backStackEntry) },
         bottomBar = { if (it.shouldShowBottomBar) BottomBar(navController) }
     ) {
         DestinationsNavHost(

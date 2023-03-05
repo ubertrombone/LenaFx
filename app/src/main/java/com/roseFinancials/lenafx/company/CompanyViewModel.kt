@@ -1,11 +1,11 @@
-package com.roseFinancials.lenafx.etfs.presentation
+package com.roseFinancials.lenafx.company
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.roseFinancials.lenafx.company.domain.LoadingState
-import com.roseFinancials.lenafx.etfs.data.EtfDataStateRepository
+import com.roseFinancials.lenafx.data.repositories.StocksStateRepository
 import com.roseFinancials.lenafx.models.SearchQueryResponse
 import com.roseFinancials.lenafx.network.TiingoSearchApiService
+import com.roseFinancials.lenafx.utils.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -17,20 +17,23 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EtfsViewModel @Inject constructor(
-    private val etfDataStateRepository: EtfDataStateRepository,
+class CompanyViewModel @Inject constructor(
+    private val stocksStateRepository: StocksStateRepository,
     private val tiingoSearchApiService: TiingoSearchApiService
 ): ViewModel() {
-    val etfDataStateFlow = etfDataStateRepository.etfDataState
+    val stocksStateFlow = stocksStateRepository.stocksState
 
-    fun updateTicker(ticker: String) {
-        viewModelScope.launch { etfDataStateRepository.updateTicker(ticker) }
+    fun updateTicker(ticker: String?) {
+        viewModelScope.launch { stocksStateRepository.updateTicker(ticker) }
+    }
+    fun updateIndex(index: String?) {
+        viewModelScope.launch { stocksStateRepository.updateIndex(index) }
     }
     fun updateRange(range: String) {
-        viewModelScope.launch { etfDataStateRepository.updateRange(range) }
+        viewModelScope.launch { stocksStateRepository.updateRange(range) }
     }
     fun updateInterval(interval: String) {
-        viewModelScope.launch { etfDataStateRepository.updateInterval(interval) }
+        viewModelScope.launch { stocksStateRepository.updateInterval(interval) }
     }
 
     private val _loadingState = MutableStateFlow(LoadingState.EMPTY)

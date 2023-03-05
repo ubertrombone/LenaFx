@@ -1,6 +1,6 @@
-package com.roseFinancials.lenafx.etfs.data
+package com.roseFinancials.lenafx.data.repositories
 
-import com.roseFinancials.lenafx.etfs.domain.EtfDataState
+import com.roseFinancials.lenafx.data.states.EtfDataState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -1,4 +1,4 @@
-package com.roseFinancials.lenafx.etfs.domain
+package com.roseFinancials.lenafx.data.states
 
 import kotlinx.serialization.Serializable
 

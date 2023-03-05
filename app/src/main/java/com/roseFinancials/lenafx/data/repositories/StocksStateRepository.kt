@@ -1,6 +1,6 @@
-package com.roseFinancials.lenafx.stocks.data
+package com.roseFinancials.lenafx.data.repositories
 
-import com.roseFinancials.lenafx.stocks.domain.StocksState
+import com.roseFinancials.lenafx.data.states.StocksState
 import com.roseFinancials.lenafx.utils.Constants.INDICES
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

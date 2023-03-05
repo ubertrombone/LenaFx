@@ -1,4 +1,4 @@
-package com.roseFinancials.lenafx.company.presentation
+package com.roseFinancials.lenafx.company
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState

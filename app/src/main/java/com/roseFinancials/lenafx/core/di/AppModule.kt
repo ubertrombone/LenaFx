@@ -1,7 +1,7 @@
 package com.roseFinancials.lenafx.core.di
 
-import com.roseFinancials.lenafx.etfs.data.EtfDataStateRepository
-import com.roseFinancials.lenafx.stocks.data.StocksStateRepository
+import com.roseFinancials.lenafx.data.repositories.EtfDataStateRepository
+import com.roseFinancials.lenafx.data.repositories.StocksStateRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

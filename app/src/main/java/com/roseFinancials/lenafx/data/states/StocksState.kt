@@ -1,4 +1,4 @@
-package com.roseFinancials.lenafx.stocks.domain
+package com.roseFinancials.lenafx.data.states
 
 data class StocksState(
     val ticker: String? = null,

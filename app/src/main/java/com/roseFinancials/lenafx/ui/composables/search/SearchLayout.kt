@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import com.roseFinancials.lenafx.company.domain.LoadingState
+import com.roseFinancials.lenafx.utils.LoadingState
 import com.roseFinancials.lenafx.models.SearchQueryResponse
 import com.roseFinancials.lenafx.ui.composables.CustomTextField
 import com.roseFinancials.lenafx.utils.searchBox
