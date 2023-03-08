@@ -17,7 +17,7 @@ interface YahooApiService {
         @Url index: String,
         @Query("range") range: String,
         @Query("interval") interval: String
-    ): List<IndexResponse>
+    ): IndexResponse
 
     companion object {
         @OptIn(ExperimentalSerializationApi::class)

@@ -24,6 +24,7 @@ fun NavigationIconUtil(
     viewModel?.let {
         IconButton(onClick = {
             viewModel.resetState()
+            viewModel.updateApiState(true)
             onClick()
         }) {
             Icon(
