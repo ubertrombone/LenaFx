@@ -23,9 +23,7 @@ fun NavigationIconUtil(
     val viewModel = destination.getViewModelInstance(navBackStackEntry)
     viewModel?.let {
         IconButton(onClick = {
-            viewModel.resetState()
-            viewModel.updateApiState(true)
-            viewModel.updateDividendsState(false)
+            viewModel.onBackPressed()
             onClick()
         }) {
             Icon(

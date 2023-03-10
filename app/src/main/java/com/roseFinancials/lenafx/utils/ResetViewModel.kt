@@ -11,4 +11,9 @@ abstract class ResetViewModel: ViewModel() {
     abstract fun updateApiState(state: Boolean)
     abstract fun updateDividendsState(state: Boolean)
     abstract fun resetState()
+    fun onBackPressed() {
+        resetState()
+        updateApiState(true)
+        updateDividendsState(false)
+    }
 }

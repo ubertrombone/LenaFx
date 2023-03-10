@@ -47,9 +47,7 @@ fun StocksScreen(
     }}
 
     BackHandler {
-        viewModel.resetState()
-        viewModel.updateApiState(true)
-        viewModel.updateDividendsState(false)
+        viewModel.onBackPressed()
         backStackEntry?.let { navController.navigate(backStackEntry.destination.route!!) {
             popUpTo(NavGraphs.root) {
                 saveState = false
