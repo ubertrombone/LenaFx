@@ -5,7 +5,6 @@ import com.roseFinancials.lenafx.data.repositories.ApiDataRepository
 import com.roseFinancials.lenafx.data.repositories.StocksStateRepository
 import com.roseFinancials.lenafx.utils.ResetViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,14 +15,10 @@ class DividendsViewModel @Inject constructor(
 ) : ResetViewModel() {
     override val stocksState = stocksStateRepository.stocksState
     override val apiState = apiDataRepository.apiState
-    override val job = apiDataRepository.jobState.value
     val tickerState = apiDataRepository.tickerState
-
-    fun callApis() { callApi(apiDataRepository) }
+    val dividendsState = apiDataRepository.dividendsState
 
     override fun updateApiState(state: Boolean) { viewModelScope.launch { apiDataRepository.updateState(state) } }
-
-    override fun updateJob(job: Job?) { viewModelScope.launch { apiDataRepository.updateJob(job) } }
-
     override fun resetState() { viewModelScope.launch { stocksStateRepository.resetState() } }
+    override fun updateDividendsState(state: Boolean) { viewModelScope.launch { apiDataRepository.updateDividendsState(state) } }
 }

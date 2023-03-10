@@ -6,7 +6,6 @@ import com.roseFinancials.lenafx.network.TiingoTickerApiService
 import com.roseFinancials.lenafx.network.YahooApiService
 import com.roseFinancials.lenafx.utils.CalculateRange.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,17 +24,17 @@ class ApiDataRepository @Inject constructor(
     private val _apiState = MutableStateFlow(true)
     val apiState: StateFlow<Boolean> = _apiState.asStateFlow()
 
-    private val _jobState = MutableStateFlow<Job?>(null)
-    val jobState = _jobState.asStateFlow()
-
     private val _tickerState = MutableStateFlow<List<TickerResponse>>(listOf())
     val tickerState = _tickerState.asStateFlow()
 
     private val _indexState = MutableStateFlow<IndexResponse?>(null)
     val indexState = _indexState.asStateFlow()
 
+    private val _dividendsState = MutableStateFlow(false)
+    val dividendsState = _dividendsState.asStateFlow()
+
     suspend fun updateState(state: Boolean) = withContext(Dispatchers.IO) { _apiState.update { state } }
-    suspend fun updateJob(job: Job?) = withContext(Dispatchers.IO) { _jobState.update { job } }
+    suspend fun updateDividendsState(state: Boolean) = withContext(Dispatchers.IO) { _dividendsState.update { state } }
 
     suspend fun callApis(
         tickerExtension: String,
@@ -45,10 +44,12 @@ class ApiDataRepository @Inject constructor(
     ) = withContext(Dispatchers.IO) {
         launch {
             _tickerState.update { tiingoTickerApiService.getHistory(tickerExtension, convertRangeToStartDate(range)!!) }
+            _dividendsState.update { true }
         }
         launch {
             _indexState.update { yahooApiService.getHistory(index, range, interval) }
         }
+
     }
 
     private fun convertRangeToStartDate(range: String): String? {

@@ -25,6 +25,7 @@ fun NavigationIconUtil(
         IconButton(onClick = {
             viewModel.resetState()
             viewModel.updateApiState(true)
+            viewModel.updateDividendsState(false)
             onClick()
         }) {
             Icon(

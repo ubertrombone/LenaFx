@@ -11,7 +11,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,15 +32,13 @@ fun DividendsScreen(
     viewModel: DividendsViewModel = hiltViewModel()
 ) {
     val stocks = viewModel.stocksState.collectAsState().value
-    val apiState = viewModel.apiState.collectAsState().value
     val tickerState = viewModel.tickerState.collectAsState().value
     val backStackEntry = navController.previousBackStackEntry
-
-    LaunchedEffect(apiState) { if (apiState) viewModel.callApis() }
 
     BackHandler {
         viewModel.resetState()
         viewModel.updateApiState(true)
+        viewModel.updateDividendsState(false)
         backStackEntry?.let { navController.navigate(backStackEntry.destination.route!!) {
             popUpTo(NavGraphs.root) {
                 saveState = false

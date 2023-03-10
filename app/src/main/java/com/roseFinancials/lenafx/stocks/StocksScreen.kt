@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +25,7 @@ import androidx.navigation.NavController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.popUpTo
 import com.roseFinancials.lenafx.NavGraphs
+import com.roseFinancials.lenafx.utils.LoadingState
 import com.roseFinancials.lenafx.utils.searchBox
 
 @Destination
@@ -36,13 +38,18 @@ fun StocksScreen(
     val apiState = viewModel.apiState.collectAsState().value
     val tickerState = viewModel.tickerState.collectAsState().value
     val indexState = viewModel.indexState.collectAsState().value
+    val loadingState = viewModel.loadingState.collectAsState().value
     val backStackEntry = navController.previousBackStackEntry
 
-    LaunchedEffect(apiState) { if (apiState) viewModel.callApis() }
+    LaunchedEffect(Unit) { if (apiState) {
+        viewModel.updateApiState(false)
+        viewModel.callApis()
+    }}
 
     BackHandler {
         viewModel.resetState()
         viewModel.updateApiState(true)
+        viewModel.updateDividendsState(false)
         backStackEntry?.let { navController.navigate(backStackEntry.destination.route!!) {
             popUpTo(NavGraphs.root) {
                 saveState = false
@@ -63,22 +70,25 @@ fun StocksScreen(
 
         Spacer(Modifier.height(20.dp))
 
-        LazyColumn(
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.searchBox(
-                height = LocalConfiguration.current.screenHeightDp,
-                borderColor = MaterialTheme.colorScheme.primary,
-                backgroundColor = MaterialTheme.colorScheme.background
-            )
-        ) {
-            items(tickerState) { result ->
-                Text("${result.date?.uppercase()}: ${result.close}")
+        if (loadingState == LoadingState.LOADING) CircularProgressIndicator()
+        else {
+            LazyColumn(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.searchBox(
+                    height = LocalConfiguration.current.screenHeightDp,
+                    borderColor = MaterialTheme.colorScheme.primary,
+                    backgroundColor = MaterialTheme.colorScheme.background
+                )
+            ) {
+                items(tickerState) { result ->
+                    Text("${result.date?.uppercase()}: ${result.close}")
+                }
             }
+
+            Spacer(Modifier.height(20.dp))
+
+            Text(text = "$indexState")
         }
-
-        Spacer(Modifier.height(20.dp))
-
-        Text(text = "$indexState")
     }
 }
