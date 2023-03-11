@@ -10,51 +10,14 @@ data class YahooResponse(
 
 @Serializable
 data class Chart(
-    val result: List<Result> = listOf(),
-    val error: Boolean? = null
+    val result: List<Result> = listOf()
 )
 
 @Serializable
 data class Result(
-    val meta: Meta,
-    val timestamp: List<Long?>,
+    val timestamp: List<Long?> = listOf(),
     val events: Events = Events(),
-    val indicators: Indicators
-)
-
-@Serializable
-data class Meta(
-    val currency: String?,
-    val symbol: String?,
-    val exchangeName: String?,
-    val instrumentType: String?,
-    val firstTradeDate: Long?,
-    val regularMarketTime: Long?,
-    val gmtoffset: Long?,
-    val timezone: String?,
-    val exchangeTimezoneName: String?,
-    val regularMarketPrice: Double?,
-    val chartPreviousClose: Double?,
-    val priceHint: Int?,
-    val currentTradingPeriod: CurrentTradingPeriod,
-    val dataGranularity: String?,
-    val range: String?,
-    val validRanges: List<String?>
-)
-
-@Serializable
-data class CurrentTradingPeriod(
-    val pre: TradingPeriod,
-    val regular: TradingPeriod,
-    val post: TradingPeriod
-)
-
-@Serializable
-data class TradingPeriod(
-    val timezone: String?,
-    val end: Long?,
-    val start: Long?,
-    val gmtoffset: Long?
+    val indicators: Indicators = Indicators()
 )
 
 @Serializable
@@ -64,20 +27,14 @@ data class Events(
 
 @Serializable
 data class Indicators(
-    val quote: List<Quote>,
-    val adjclose: List<AdjClose>
+    val quote: List<Quote> = listOf()
 )
 
 @Serializable
 data class Quote(
-    val volume: List<Long?>,
-    val high: List<Double?>,
-    val open: List<Double?>,
-    val low: List<Double?>,
-    val close: List<Double?>
-)
-
-@Serializable
-data class AdjClose(
-    val adjclose: List<Double?>
+    val volume: List<Long?> = listOf(),
+    val high: List<Double?> = listOf(),
+    val open: List<Double?> = listOf(),
+    val low: List<Double?> = listOf(),
+    val close: List<Double?> = listOf()
 )

@@ -22,10 +22,12 @@ interface YahooApiService {
     ): YahooResponse
 
     companion object {
+        private val json = Json(builderAction = { ignoreUnknownKeys = true })
+
         @OptIn(ExperimentalSerializationApi::class)
         fun create(): YahooApiService {
             return Retrofit.Builder()
-                .addConverterFactory(Json.asConverterFactory(MediaType.get("application/json")))
+                .addConverterFactory(json.asConverterFactory(MediaType.get("application/json")))
                 .baseUrl("$YAHOO_BASE_URL$YAHOO_HISTORY_URL")
                 .build()
                 .create(YahooApiService::class.java)
