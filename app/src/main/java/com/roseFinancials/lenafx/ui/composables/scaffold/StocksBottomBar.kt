@@ -77,6 +77,6 @@ enum class SecondBottomBarItem(
 fun Destination.isEnabled(navBackStackEntry: NavBackStackEntry?): Boolean =
     if (this == DividendsScreenDestination) {
         navBackStackEntry?.let {
-            hiltViewModel<DividendsViewModel>(navBackStackEntry).dividendsState.collectAsState().value
+            hiltViewModel<DividendsViewModel>(navBackStackEntry).dividendsScreenState.collectAsState().value
         } ?: throw NullPointerException("Screen has no backstack")
     } else true

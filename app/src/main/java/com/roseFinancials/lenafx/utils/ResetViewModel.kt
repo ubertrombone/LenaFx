@@ -9,11 +9,11 @@ abstract class ResetViewModel: ViewModel() {
     abstract val apiState: StateFlow<Boolean>
 
     abstract fun updateApiState(state: Boolean)
-    abstract fun updateDividendsState(state: Boolean)
+    abstract fun updateDividendsScreenState(state: Boolean)
     abstract fun resetState()
     fun onBackPressed() {
         resetState()
         updateApiState(true)
-        updateDividendsState(false)
+        updateDividendsScreenState(false)
     }
 }

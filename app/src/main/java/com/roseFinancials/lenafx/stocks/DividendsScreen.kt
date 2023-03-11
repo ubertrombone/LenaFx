@@ -32,7 +32,7 @@ fun DividendsScreen(
     viewModel: DividendsViewModel = hiltViewModel()
 ) {
     val stocks = viewModel.stocksState.collectAsState().value
-    val tickerState = viewModel.tickerState.collectAsState().value
+    val dividendsState = viewModel.dividendsState.collectAsState().value
     val backStackEntry = navController.previousBackStackEntry
 
     BackHandler {
@@ -66,8 +66,8 @@ fun DividendsScreen(
                 backgroundColor = MaterialTheme.colorScheme.background
             )
         ) {
-            items(tickerState) { result ->
-                Text("${result.date?.uppercase()}: ${result.divCash}")
+            items(dividendsState) { result ->
+                Text("${result.date.uppercase()}: ${result.dividends}")
             }
         }
     }

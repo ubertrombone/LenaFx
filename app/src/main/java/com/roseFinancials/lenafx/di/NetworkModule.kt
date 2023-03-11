@@ -1,7 +1,6 @@
 package com.roseFinancials.lenafx.di
 
 import com.roseFinancials.lenafx.network.TiingoSearchApiService
-import com.roseFinancials.lenafx.network.TiingoTickerApiService
 import com.roseFinancials.lenafx.network.YahooApiService
 import dagger.Module
 import dagger.Provides
@@ -16,12 +15,6 @@ class NetworkModule {
     @Provides
     fun provideTiingoSearchApiService(): TiingoSearchApiService {
         return TiingoSearchApiService.create()
-    }
-
-    @Singleton
-    @Provides
-    fun provideTiingoTickerApiService(): TiingoTickerApiService {
-        return TiingoTickerApiService.create()
     }
 
     @Singleton

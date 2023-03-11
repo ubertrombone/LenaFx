@@ -3,7 +3,6 @@ package com.roseFinancials.lenafx.di
 import com.roseFinancials.lenafx.data.repositories.ApiDataRepository
 import com.roseFinancials.lenafx.data.repositories.EtfDataStateRepository
 import com.roseFinancials.lenafx.data.repositories.StocksStateRepository
-import com.roseFinancials.lenafx.network.TiingoTickerApiService
 import com.roseFinancials.lenafx.network.YahooApiService
 import dagger.Module
 import dagger.Provides
@@ -30,9 +29,8 @@ class AppModule {
     @Singleton
     @Provides
     fun provideApiDataRepository(
-        tiingoTickerApiService: TiingoTickerApiService,
         yahooApiService: YahooApiService
     ): ApiDataRepository {
-        return ApiDataRepository(tiingoTickerApiService, yahooApiService)
+        return ApiDataRepository(yahooApiService)
     }
 }

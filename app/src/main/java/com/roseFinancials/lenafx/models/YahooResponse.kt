@@ -1,22 +1,24 @@
 package com.roseFinancials.lenafx.models
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonObject
 
 @Serializable
-data class IndexResponse(
-    val chart: Chart
+data class YahooResponse(
+    val chart: Chart = Chart()
 )
 
 @Serializable
 data class Chart(
-    val result: List<Result>,
-    val error: Boolean?
+    val result: List<Result> = listOf(),
+    val error: Boolean? = null
 )
 
 @Serializable
 data class Result(
     val meta: Meta,
     val timestamp: List<Long?>,
+    val events: Events = Events(),
     val indicators: Indicators
 )
 
@@ -53,6 +55,11 @@ data class TradingPeriod(
     val end: Long?,
     val start: Long?,
     val gmtoffset: Long?
+)
+
+@Serializable
+data class Events(
+    val dividends: JsonObject = JsonObject(mapOf())
 )
 
 @Serializable

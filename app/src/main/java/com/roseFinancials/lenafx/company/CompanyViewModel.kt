@@ -26,7 +26,7 @@ class CompanyViewModel @Inject constructor(
     fun updateTicker(ticker: String?) {
         viewModelScope.launch { stocksStateRepository.updateTicker(ticker) }
     }
-    fun updateIndex(index: String?) {
+    fun updateIndex(index: String) {
         viewModelScope.launch { stocksStateRepository.updateIndex(index) }
     }
     fun updateRange(range: String) {
@@ -45,6 +45,7 @@ class CompanyViewModel @Inject constructor(
     private val _searchResults = MutableStateFlow(listOf<SearchQueryResponse>())
     val searchResults: StateFlow<List<SearchQueryResponse>> = _searchResults.asStateFlow()
 
+    // TODO: Change to Yahoo search and for ETFs
     private var job: Job? = null
     @Suppress("DuplicatedCode")
     fun updateSearchQuery(query: String) {

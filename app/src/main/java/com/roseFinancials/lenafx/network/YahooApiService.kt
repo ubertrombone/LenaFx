@@ -1,7 +1,7 @@
 package com.roseFinancials.lenafx.network
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.roseFinancials.lenafx.models.IndexResponse
+import com.roseFinancials.lenafx.models.YahooResponse
 import com.roseFinancials.lenafx.utils.Constants.YAHOO_BASE_URL
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -14,10 +14,11 @@ import retrofit2.http.Url
 interface YahooApiService {
     @GET
     suspend fun getHistory(
-        @Url index: String,
+        @Url ticker: String,
         @Query("range") range: String,
-        @Query("interval") interval: String
-    ): IndexResponse
+        @Query("interval") interval: String,
+        @Query("events") events: String = "div"
+    ): YahooResponse
 
     companion object {
         @OptIn(ExperimentalSerializationApi::class)

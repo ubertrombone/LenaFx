@@ -21,8 +21,8 @@ class StocksViewModel @Inject constructor(
 ): ResetViewModel() {
     override val stocksState = stocksStateRepository.stocksState
     override val apiState = apiDataRepository.apiState
-    val tickerState = apiDataRepository.tickerState
     val indexState = apiDataRepository.indexState
+    val tickerState = apiDataRepository.tickerState
 
     private val _loadingState = MutableStateFlow(LoadingState.EMPTY)
     val loadingState: StateFlow<LoadingState> = _loadingState.asStateFlow()
@@ -32,8 +32,8 @@ class StocksViewModel @Inject constructor(
 
         viewModelScope.launch {
             apiDataRepository.callApis(
-                tickerExtension = "daily/${stocksState.value.ticker}/prices",
-                index = "%5E${stocksState.value.index}",
+                ticker = stocksState.value.ticker!!,
+                index = stocksState.value.index,
                 range = stocksState.value.dateRange,
                 interval = stocksState.value.interval
             )
@@ -52,5 +52,5 @@ class StocksViewModel @Inject constructor(
 
     override fun updateApiState(state: Boolean) { viewModelScope.launch { apiDataRepository.updateState(state) } }
     override fun resetState() { viewModelScope.launch { stocksStateRepository.resetState() } }
-    override fun updateDividendsState(state: Boolean) { viewModelScope.launch { apiDataRepository.updateDividendsState(state) } }
+    override fun updateDividendsScreenState(state: Boolean) { viewModelScope.launch { apiDataRepository.updateDividendsScreenState(state) } }
 }

@@ -80,13 +80,25 @@ fun StocksScreen(
                 )
             ) {
                 items(tickerState) { result ->
-                    Text("${result.date?.uppercase()}: ${result.close}")
+                    Text("${result.date.uppercase()}: ${result.close}")
                 }
             }
 
             Spacer(Modifier.height(20.dp))
 
-            Text(text = "$indexState")
+            LazyColumn(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.searchBox(
+                    height = LocalConfiguration.current.screenHeightDp,
+                    borderColor = MaterialTheme.colorScheme.primary,
+                    backgroundColor = MaterialTheme.colorScheme.background
+                )
+            ) {
+                items(indexState) { result ->
+                    Text("${result.date.uppercase()}: ${result.close}")
+                }
+            }
         }
     }
 }
