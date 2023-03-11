@@ -28,9 +28,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideApiDataRepository(
-        yahooApiService: YahooApiService
-    ): ApiDataRepository {
+    fun provideApiDataRepository(yahooApiService: YahooApiService): ApiDataRepository {
         return ApiDataRepository(yahooApiService)
     }
 }
