@@ -22,7 +22,7 @@ interface YahooApiService {
     ): YahooResponse
 
     companion object {
-        private val json = Json(builderAction = { ignoreUnknownKeys = true })
+        private val json = Json { ignoreUnknownKeys = true }
 
         @OptIn(ExperimentalSerializationApi::class)
         fun create(): YahooApiService {
