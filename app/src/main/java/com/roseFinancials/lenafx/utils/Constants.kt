@@ -1,7 +1,9 @@
 package com.roseFinancials.lenafx.utils
 
 object Constants {
-    const val YAHOO_BASE_URL = "https://query2.finance.yahoo.com/v8/finance/chart/"
+    const val YAHOO_BASE_URL = "https://query2.finance.yahoo.com/"
+    const val YAHOO_HISTORY_URL = "v8/finance/chart/"
+    const val YAHOO_SEARCH_URL = "v1/finance/"
     const val TIINGO_BASE_URL = "https://api.tiingo.com/tiingo/"
     const val TIINGO_SEARCH_URL = "utilities/search"
     const val LIMIT = 100

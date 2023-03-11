@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 fun CompanyCard(
     company: String,
     ticker: String,
-    market: String,
+    exchange: String,
     modifier: Modifier = Modifier,
     selected: Boolean = false,
     onClick: (String) -> Unit
@@ -47,11 +47,11 @@ fun CompanyCard(
                 )
                 Text(
                     text = if (company.length > 25) "${company.dropLast(company.length - 25).trimEnd()}..." else company,
-                    fontSize = 13.sp,
+                    fontSize = 14.sp,
                     maxLines = 1
                 )
             }
-            Text(text = market, fontSize = 16.sp, modifier = Modifier.padding(5.dp))
+            Text(text = exchange, fontSize = 14.sp, modifier = Modifier.padding(5.dp))
         }
     }
 }

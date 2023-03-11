@@ -15,12 +15,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.roseFinancials.lenafx.R
+import com.roseFinancials.lenafx.models.Quotes
 import com.roseFinancials.lenafx.utils.LoadingState
-import com.roseFinancials.lenafx.models.SearchQueryResponse
 
 @Composable
 fun SearchBox(
-    searchResults: List<SearchQueryResponse>,
+    searchResults: List<Quotes>,
     ticker: String?,
     modifier: Modifier = Modifier,
     loadingState: LoadingState,
@@ -50,10 +50,10 @@ fun SearchBox(
         ) {
             items(searchResults) { result ->
                 CompanyCard(
-                    company = result.name ?: "",
-                    ticker = result.ticker ?: "",
-                    market = result.countryCode ?: "",
-                    selected = ticker == result.ticker,
+                    company = result.shortname,
+                    ticker = result.symbol,
+                    exchange = result.exchDisp,
+                    selected = ticker == result.symbol,
                     onClick = { onClick(it) }
                 )
             }

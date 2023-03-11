@@ -2,6 +2,7 @@ package com.roseFinancials.lenafx.di
 
 import com.roseFinancials.lenafx.network.TiingoSearchApiService
 import com.roseFinancials.lenafx.network.YahooApiService
+import com.roseFinancials.lenafx.network.YahooSearchApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +20,9 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideYahooApiService(): YahooApiService {
-        return YahooApiService.create()
-    }
+    fun provideYahooSearchApiService() = YahooSearchApiService.create()
+
+    @Singleton
+    @Provides
+    fun provideYahooApiService() = YahooApiService.create()
 }

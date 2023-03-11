@@ -3,6 +3,7 @@ package com.roseFinancials.lenafx.network
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.roseFinancials.lenafx.models.YahooResponse
 import com.roseFinancials.lenafx.utils.Constants.YAHOO_BASE_URL
+import com.roseFinancials.lenafx.utils.Constants.YAHOO_HISTORY_URL
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
@@ -25,7 +26,7 @@ interface YahooApiService {
         fun create(): YahooApiService {
             return Retrofit.Builder()
                 .addConverterFactory(Json.asConverterFactory(MediaType.get("application/json")))
-                .baseUrl(YAHOO_BASE_URL)
+                .baseUrl("$YAHOO_BASE_URL$YAHOO_HISTORY_URL")
                 .build()
                 .create(YahooApiService::class.java)
         }

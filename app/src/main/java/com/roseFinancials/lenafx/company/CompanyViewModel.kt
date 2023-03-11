@@ -3,8 +3,8 @@ package com.roseFinancials.lenafx.company
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roseFinancials.lenafx.data.repositories.StocksStateRepository
-import com.roseFinancials.lenafx.models.SearchQueryResponse
-import com.roseFinancials.lenafx.network.TiingoSearchApiService
+import com.roseFinancials.lenafx.models.Quotes
+import com.roseFinancials.lenafx.network.YahooSearchApiService
 import com.roseFinancials.lenafx.utils.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CompanyViewModel @Inject constructor(
     private val stocksStateRepository: StocksStateRepository,
-    private val tiingoSearchApiService: TiingoSearchApiService
+    private val yahooSearchApiService: YahooSearchApiService
 ): ViewModel() {
     val stocksStateFlow = stocksStateRepository.stocksState
 
@@ -42,10 +42,9 @@ class CompanyViewModel @Inject constructor(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
-    private val _searchResults = MutableStateFlow(listOf<SearchQueryResponse>())
-    val searchResults: StateFlow<List<SearchQueryResponse>> = _searchResults.asStateFlow()
+    private val _searchResults = MutableStateFlow(listOf<Quotes>())
+    val searchResults: StateFlow<List<Quotes>> = _searchResults.asStateFlow()
 
-    // TODO: Change to Yahoo search and for ETFs
     private var job: Job? = null
     @Suppress("DuplicatedCode")
     fun updateSearchQuery(query: String) {
@@ -63,9 +62,7 @@ class CompanyViewModel @Inject constructor(
         }
         job = viewModelScope.launch {
             delay(500)
-            _searchResults.update {
-                tiingoSearchApiService.getCompanies(query = query)
-            }
+            _searchResults.update { yahooSearchApiService.getSearchResults(q = query).quotes }
             _loadingState.update { LoadingState.RESULTS }
         }
     }
