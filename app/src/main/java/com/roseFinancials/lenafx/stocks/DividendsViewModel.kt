@@ -18,7 +18,6 @@ class DividendsViewModel @Inject constructor(
     val dividendsState = apiDataRepository.dividendsState
     val dividendsScreenState = apiDataRepository.dividendsScreenState
 
-    override fun updateApiState(state: Boolean) { viewModelScope.launch { apiDataRepository.updateState(state) } }
     override fun resetState() { viewModelScope.launch { stocksStateRepository.resetState() } }
-    override fun updateDividendsScreenState(state: Boolean) { viewModelScope.launch { apiDataRepository.updateDividendsScreenState(state) } }
+    override fun resetApiState() { viewModelScope.launch { apiDataRepository.resetApiState() } }
 }

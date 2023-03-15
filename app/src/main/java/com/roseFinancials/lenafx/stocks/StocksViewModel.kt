@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.pow
 
 @HiltViewModel
 class StocksViewModel @Inject constructor(
@@ -23,6 +22,10 @@ class StocksViewModel @Inject constructor(
     override val apiState = apiDataRepository.apiState
     val indexState = apiDataRepository.indexState
     val tickerState = apiDataRepository.tickerState
+    val tickerIndexPairs = apiDataRepository.tickerIndexPairs
+    val regressionValues = apiDataRepository.regressionValues
+    val betaSlope = apiDataRepository.betaSlope
+    val yIntercept = apiDataRepository.yIntercept
 
     private val _loadingState = MutableStateFlow(LoadingState.EMPTY)
     val loadingState: StateFlow<LoadingState> = _loadingState.asStateFlow()
@@ -37,20 +40,14 @@ class StocksViewModel @Inject constructor(
                 range = stocksState.value.dateRange,
                 interval = stocksState.value.interval
             )
+            apiDataRepository.collectGraphData()
+            println("DATA: ${tickerIndexPairs.value}")
             _loadingState.update { LoadingState.RESULTS }
         }
     }
 
-    fun calculateBetaSlope(data: List<Pair<Double, Double>>): Double {
-        val (tickerMean, indexMean) = data.unzip().toList().map { it.average() }
-
-        val numerator = data.sumOf { pair -> (pair.second - indexMean) * (pair.first - tickerMean) }
-        val denominator = data.sumOf { (it.second - indexMean).pow(2) }
-
-        return numerator/denominator
-    }
-
-    override fun updateApiState(state: Boolean) { viewModelScope.launch { apiDataRepository.updateState(state) } }
+    fun updateApiState(state: Boolean) { viewModelScope.launch { apiDataRepository.updateState(state) } }
+    fun updateLoadingState(state: LoadingState) { _loadingState.update { state } }
     override fun resetState() { viewModelScope.launch { stocksStateRepository.resetState() } }
-    override fun updateDividendsScreenState(state: Boolean) { viewModelScope.launch { apiDataRepository.updateDividendsScreenState(state) } }
+    override fun resetApiState() { viewModelScope.launch { apiDataRepository.resetApiState() } }
 }
