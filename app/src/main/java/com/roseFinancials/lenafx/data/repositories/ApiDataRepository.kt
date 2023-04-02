@@ -1,6 +1,6 @@
 package com.roseFinancials.lenafx.data.repositories
 
-import com.himanshoe.charty.point.model.PointData
+import com.roseFinancials.lenafx.charty.linearregression.model.LinearRegressionData
 import com.roseFinancials.lenafx.models.CloseModel
 import com.roseFinancials.lenafx.models.DividendsModel
 import com.roseFinancials.lenafx.models.YahooResponse
@@ -35,10 +35,10 @@ class ApiDataRepository @Inject constructor(private val yahooApiService: YahooAp
     private val _dividendsScreenState = MutableStateFlow(false)
     val dividendsScreenState = _dividendsScreenState.asStateFlow()
 
-    private val _tickerIndexPairs = MutableStateFlow<List<PointData>>(listOf())
+    private val _tickerIndexPairs = MutableStateFlow<List<LinearRegressionData>>(listOf())
     val tickerIndexPairs = _tickerIndexPairs.asStateFlow()
 
-    private val _regressionValues = MutableStateFlow<List<PointData>>(listOf())
+    private val _regressionValues = MutableStateFlow<List<LinearRegressionData>>(listOf())
     val regressionValues = _regressionValues.asStateFlow()
 
     private val _betaSlope = MutableStateFlow(0.0)
@@ -74,7 +74,7 @@ class ApiDataRepository @Inject constructor(private val yahooApiService: YahooAp
                 .groupBy(keySelector = { it.date }, valueTransform = { it.close })
                 .filter { it.value.size == 2 }
                 .filterValues { !it.contains(null) }
-                .values.map { PointData(it.last()!!.toFloat(), it.first()!!.toFloat()) }
+                .values.map { LinearRegressionData(it.last()!!.toFloat(), it.first()!!.toFloat()) }
         }
     }
 
@@ -98,7 +98,7 @@ class ApiDataRepository @Inject constructor(private val yahooApiService: YahooAp
     private suspend fun calculateRegressionValues() = withContext(Dispatchers.IO) {
         _regressionValues.update {
             _tickerIndexPairs.value.map { point ->
-                PointData(
+                LinearRegressionData(
                     xValue = point.xValue,
                     yValue = ((_betaSlope.value * point.xValue.toString().toFloat()) + _yIntercept.value).toFloat()
                 )

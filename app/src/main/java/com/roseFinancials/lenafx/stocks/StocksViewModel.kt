@@ -1,6 +1,7 @@
 package com.roseFinancials.lenafx.stocks
 
 import androidx.lifecycle.viewModelScope
+import com.roseFinancials.lenafx.charty.linearregression.model.LinearRegressionData
 import com.roseFinancials.lenafx.data.repositories.ApiDataRepository
 import com.roseFinancials.lenafx.data.repositories.StocksStateRepository
 import com.roseFinancials.lenafx.utils.LoadingState
@@ -22,7 +23,7 @@ class StocksViewModel @Inject constructor(
     override val apiState = apiDataRepository.apiState
     val indexState = apiDataRepository.indexState
     val tickerState = apiDataRepository.tickerState
-    val tickerIndexPairs = apiDataRepository.tickerIndexPairs
+    val tickerIndexPairs: StateFlow<List<LinearRegressionData>> = apiDataRepository.tickerIndexPairs
     val regressionValues = apiDataRepository.regressionValues
     val betaSlope = apiDataRepository.betaSlope
     val yIntercept = apiDataRepository.yIntercept
@@ -41,7 +42,6 @@ class StocksViewModel @Inject constructor(
                 interval = stocksState.value.interval
             )
             apiDataRepository.collectGraphData()
-            println("DATA: ${tickerIndexPairs.value}")
             _loadingState.update { LoadingState.RESULTS }
         }
     }
